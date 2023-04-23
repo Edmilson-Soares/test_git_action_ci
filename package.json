@@ -1,0 +1,17 @@
+{
+    "name": "ci",
+    "version": "1.0.0",
+    "description": "\"# test_git_action_ci\"",
+    "main": "index.js",
+
+    "type": "module",
+    "scripts": {
+        "dev": "nodemon index.js",
+        "start": "node index.js",
+        "build": "echo \"Error: no test specified\" && exit 1",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
