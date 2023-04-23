@@ -2,7 +2,7 @@ name: holle git
 
 on:
     push:
-        branches:["*"]
+        branches: ["*"]
 
 jobs:
   build:
