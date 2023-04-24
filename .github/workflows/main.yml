@@ -25,5 +25,9 @@ jobs:
     - name: Install dependencies
       run: npm install
     
+    - name: Stop pm2
+      run: pm2 stop nodedeploy
+      if: ${{failure()}}
+    
     - name: Start pm2
-      run: npm run start
+      run: pm2 start index.js --name nodedeploy
