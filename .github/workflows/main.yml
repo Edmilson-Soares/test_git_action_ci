@@ -1,19 +1,36 @@
-name: holle git
+name: Node.js CI
 
 on:
-    push:
-        branches: ["*"]
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
-      runs-on: ubuntu-latest        
-      steps: 
-          - uses: actions/checkout@v2
-          - uses: actions/setup-node@v1
-            with:
-                node-version: 16
 
-          - run: npm ci
-          - run: npm run test
-          - run: npm run build
-          - run: npm run start
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Stop pm2
+      run: pm2 stop nodedeploy
+      if: ${{failure()}}
+    
+    - name: Start pm2
+      run: pm2 start index.js --name nodedeploy
